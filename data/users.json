@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@mail.com"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "email": "bob@mail.com"
+  },
+  {
+    "id": 1761694766934,
+    "name": "cristian",
+    "birthdate": "02-30-2000"
+  },
+  {
+    "id": 1761694779969,
+    "name": "dadasd",
+    "birthdate": "02-30-2000"
+  }
+]
