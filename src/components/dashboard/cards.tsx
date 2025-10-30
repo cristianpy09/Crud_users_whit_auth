@@ -1,5 +1,9 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import { useParams } from "next/navigation";
+import AddForm from "./AddForm";
+import Nodal from "./Nodal";
+import { useState } from "react";
 
 type Prop = {
   name: string;
@@ -7,45 +11,92 @@ type Prop = {
   description?: string;
   species?: string;
   age?: string;
-  house?: string;
+  email?: string;
   gender?: string;
   status?: string;
-  id?: string | number;
+  id?: number;
   w?: string;
 };
+type UserType ={
+  name:string,
+  email:string,
+  id:number
+}
+
+
+
+
+
+async function DeleteUser(id: number) {
+  if (!id) return console.error("ID inválido");
+
+  const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+    method: "DELETE",
+  });
+
+  if (res.ok) {
+    alert(" Usuario eliminado correctamente");
+    window.location.reload(); // Refresca el dashboard
+  } else {
+    console.error(" Error al eliminar usuario:", await res.text());
+  }
+}
+
 
 export default function Cards(props: Prop) {
-  const { name, img, species, age, house, gender, status, id, w } = props;
-
+  const [userFom,setUserForm]=useState<UserType[]>([])
+  
+  const { name, img, email, id } = props;
+  const params = useParams();
+  const idURL = params.id; 
   return (
     <div
-      className={`card bg-base-100 ${
-        w ? w : "w-70"
-      }  shadow-sm transition-transform duration-300 hover:scale-105 cursor-pointer `}
+      className={`relative group rounded-2xl p-5 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]`}
     >
-      <figure>
-        <img src={img} alt="img" />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">
-          {name}
-          <div className="badge badge-secondary">{house}</div>
-        </h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline">{species}</div>
-          <div className="badge badge-outline">{gender}</div>
+      {/* Imagen superior (si existe) */}
+      {img && (
+        <div className="overflow-hidden rounded-xl mb-4">
+          <img
+            src={img}
+            alt={name}
+            className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+          />
         </div>
-        <Link
-          className="bg-blue-200 rounded-2xl h-6 cursor-pointer hover:bg-blue-950 "
-          href={`/rickandmorthy/${id}`}
+      )}
+
+      {/* Contenido principal */}
+      <div className="flex flex-col space-y-3">
+        <h2 className="text-xl font-semibold text-white tracking-wide">
+          {name}
+        </h2>
+        <p className="text-sm text-gray-300">{email}</p>
+
+        {/* Divider */}
+        <div className="border-t border-white/10 my-2"></div>
+
+        {/* Acciones */}
+        <div className="flex justify-between  mt-5 gap-3">
+          
+          <Link
+            href={`/dashboard/${id}`}
+            className="px-3 py-1.5 bg-linear-to-r from-blue-500 to-indigo-600 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
+          >
+            Ver detalles
+            </Link>
+            {idURL?   <Nodal  /> :  <button
+          
+          onClick={() => DeleteUser(id!)}
+          className="px-3 py-1.5 bg-linear-to-r from-blue-500 to-indigo-600 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
         >
-          Ver detalles
-        </Link>
+          Eliminar
+          
+        </button> }
+         
+        </div>
       </div>
+
+      {/* Efecto luminoso al pasar el mouse */}
+      <div className="absolute inset-0 rounded-2xl pointer-events-none bg-linear-to-br from-transparent via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
     </div>
   );
 }

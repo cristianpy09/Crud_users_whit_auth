@@ -2,6 +2,7 @@
 
 import { EnvelopeClosedIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Text, TextField } from "@radix-ui/themes";
+import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -24,7 +25,7 @@ export default function SigninForm() {
       <Flex direction="column" gap="4" className="items-center">
         {/* Email */}
         <div className="w-full">
-          <label htmlFor="email" className="text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="text-sm font-medium text-gray-300">
             Email
           </label>
           <Controller
@@ -55,7 +56,7 @@ export default function SigninForm() {
         <div className="w-full">
           <label
             htmlFor="password"
-            className="text-sm font-medium text-gray-700"
+            className="text-sm font-medium text-gray-300"
           >
             Password
           </label>
@@ -87,9 +88,13 @@ export default function SigninForm() {
           )}
         </div>
 
-        <Button type="submit" className="cursor-pointer w-full mt-2">
-          Sign in
-        </Button>
+        <button
+        type="submit"
+        className="w-full py-3 mt-2 rounded-lg bg-linear-to-r from-pink-500 to-indigo-600 font-semibold text-white hover:from-pink-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
+      >
+        <Link href="/dashboard" >Iniciar session</Link>
+        
+      </button>
       </Flex>
     </form>
   );

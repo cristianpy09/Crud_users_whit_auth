@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+interface user {
+  id:number,
+  name: string;
+  email: string;
+}
 
 // Ruta absoluta del archivo JSON
 const filePath = path.join(process.cwd(), "data", "users.json");
@@ -9,7 +14,7 @@ function readData() {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-function writeData(data: any) {
+function writeData(data: user[]) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 

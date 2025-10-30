@@ -4,10 +4,8 @@ import {
   EnvelopeClosedIcon,
   LockClosedIcon,
   PersonIcon,
+  MobileIcon,
 } from "@radix-ui/react-icons";
-import { Button, Flex, Text, TextField } from "@radix-ui/themes";
-
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormValues = {
@@ -24,113 +22,129 @@ export default function RegisterForm() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onsubmit =handleSubmit(data=>{
-    console.log(data);
-    
-  })
+  const onSubmit = handleSubmit((data) => console.log(data));
 
   return (
-    <form  onSubmit={onsubmit}>
-      <Flex direction="column" gap="5">
-        <label htmlFor="name">Name:</label>
-        <Controller
-          name="name"
-          control={control}
-          rules={
-            { required:{ 
-              message:"este campo es requerido",
-              value:true}
+    <form onSubmit={onSubmit} className="flex flex-col space-y-5">
+      {/* Nombre */}
+      <div>
+        <label htmlFor="name" className="text-sm font-medium text-gray-300">
+          Nombre
+        </label>
+        <div className="relative mt-2">
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: "Este campo es requerido" }}
+            render={({ field }) => (
+              <input
+                {...field}
+                id="name"
+                placeholder="Tu nombre"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+              />
+            )}
+          />
+          <PersonIcon className="absolute right-3 top-3.5 text-gray-400" />
+        </div>
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+        )}
+      </div>
 
-            }
-          }
-          render={({ field }) => {
-            return (
-              <TextField.Root {...field} placeholder="Name" name="name">
-                <TextField.Slot>
-                  <PersonIcon height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
-            );
-          }}
-        />
-        {errors.name && <Text className="text-red-500" >{errors.name.message}</Text>}
-        <label htmlFor="name">Email:</label>
+      {/* Email */}
+      <div>
+        <label htmlFor="email" className="text-sm font-medium text-gray-300">
+          Email
+        </label>
+        <div className="relative mt-2">
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: "Este campo es requerido" }}
+            render={({ field }) => (
+              <input
+                {...field}
+                id="email"
+                type="email"
+                placeholder="tucorreo@ejemplo.com"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              />
+            )}
+          />
+          <EnvelopeClosedIcon className="absolute right-3 top-3.5 text-gray-400" />
+        </div>
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+        )}
+      </div>
 
-        <Controller
-          name="email"
-          control={control}
-          rules={
-            { required:{ 
-              message:"este campo es requerido",
-              value:true}
+      {/* Número */}
+      <div>
+        <label htmlFor="number" className="text-sm font-medium text-gray-300">
+          Número de teléfono
+        </label>
+        <div className="relative mt-2">
+          <Controller
+            name="number"
+            control={control}
+            rules={{ required: "Este campo es requerido" }}
+            render={({ field }) => (
+              <input
+                {...field}
+                id="number"
+                type="tel"
+                placeholder="+34 600 123 456"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              />
+            )}
+          />
+          <MobileIcon className="absolute right-3 top-3.5 text-gray-400" />
+        </div>
+        {errors.number && (
+          <p className="text-red-500 text-sm mt-1">{errors.number.message}</p>
+        )}
+      </div>
 
-            }
-          }
-          
-          render={({ field }) => {
-            return (
-              <TextField.Root {...field} placeholder="Email" name="email">
-                <TextField.Slot>
-                  <EnvelopeClosedIcon height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
-            );
-          }}
-        />
-        {errors.email && <Text className="text-red-500" >{errors.email.message}</Text>}
-        <label htmlFor="name">Number:</label>
-        <Controller
-          name="number"
-          control={control}
-          rules={
-            { required:{ 
-              message:"este campo es requerido",
-              value:true}
+      {/* Contraseña */}
+      <div>
+        <label htmlFor="password" className="text-sm font-medium text-gray-300">
+          Contraseña
+        </label>
+        <div className="relative mt-2">
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+              minLength: { value: 6, message: "Debe tener al menos 6 caracteres" },
+            }}
+            render={({ field }) => (
+              <input
+                {...field}
+                id="password"
+                type="password"
+                placeholder="••••••"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+              />
+            )}
+          />
+          <LockClosedIcon className="absolute right-3 top-3.5 text-gray-400" />
+        </div>
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.password.message}
+          </p>
+        )}
+      </div>
 
-            }
-          }
-          render={({ field }) => {
-            return (
-              <TextField.Root {...field} name="number" placeholder="Number">
-                <TextField.Slot>
-                  <PersonIcon height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
-            );
-          }}
-        />
-        {errors.number && <Text className="text-red-500" >{errors.number.message}</Text>}
-        <label htmlFor="password">Password</label>
-
-        <Controller
-          name="password"
-          control={control}
-          rules={
-            { required:{ 
-              message:"este campo es requerido",
-              value:true},
-              minLength:{
-                value:6,
-                message:"debe tener al menos 6 caracteres"
-              }
-
-            }
-          }
-          render={({ field }) => {
-            return (
-              <TextField.Root type="password" {...field} name="password" placeholder="*****">
-                <TextField.Slot>
-                  <LockClosedIcon height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
-            );
-          }}
-        />
-        {errors.password && <Text className="text-red-500" >{errors.password.message}</Text>}
-        <Button type="submit" className="cursor-pointer">
-          Sign in
-        </Button>
-      </Flex>
-    </form >
+      {/* Botón */}
+      <button
+        type="submit"
+        className="w-full py-3 mt-2 rounded-lg bg-linear-to-r from-pink-500 to-indigo-600 font-semibold text-white hover:from-pink-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
+      >
+        Crear cuenta
+      </button>
+    </form>
   );
 }

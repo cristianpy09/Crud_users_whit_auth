@@ -1,101 +1,132 @@
 "use client";
 
-import {
-  EnvelopeClosedIcon,
-  PersonIcon,
-} from "@radix-ui/react-icons";
+import { EnvelopeClosedIcon, PersonIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Text, TextField } from "@radix-ui/themes";
+import { useParams } from "next/navigation";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormValues = {
   name: string;
-  birthdate: string;
+  email: string;
+  id: string;
 };
 
 type AddFormProps = {
-  close: () => void; 
+  close: () => void;
+  field?:InputEvent
 };
+
+async function Update(id:number, user:FormValues){
+  const res= await fetch(`http://localhost:3000/api/users/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: user.name,
+      email: user.email,
+      id: user.id,
+    }),
+  });
+ }
+
 
 async function Post(user: FormValues) {
   const res = await fetch("http://localhost:3000/api/users", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
- body: JSON.stringify({
-  name: user.name,
-  birthdate: user.birthdate,
-}),
-
-
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: user.name,
+      email: user.email,
+      id: user.id,
+    }),
   });
 
   if (!res.ok) throw new Error("Error al crear el usuario");
   return await res.json();
 }
 
-export default function AddForm({ close }: AddFormProps) {
+export default function AddForm({ close }: AddFormProps ) {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
-    defaultValues: {
-      name: "",
-      birthdate: "",
-    },
+    defaultValues: { name: "", email: "" },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log("📤 Enviando datos:", data);
     await Post(data);
-    close(); // 👈 cierra el modal al terminar
+    close();
+    reset();
+    alert(" Usuario agregado correctamente");
+    window.location.reload();
   });
 
+  const params = useParams();
+    const idURL = params.id; 
+
   return (
-    <form onSubmit={onSubmit}>
-      <Flex direction="column" gap="5">
-        <label htmlFor="name">Full Name:</label>
+    <form onSubmit={onSubmit} className="space-y-6">
+     
+      <div>
+        <label htmlFor="name" className="text-sm font-semibold text-gray-300">
+          Nombre completo
+        </label>
         <Controller
           name="name"
           control={control}
-          rules={{
-            required: { value: true, message: "Este campo es requerido" },
-          }}
+          rules={{ required: { value: true, message: "Campo requerido" } }}
           render={({ field }) => (
-            <TextField.Root {...field} placeholder="Name" name="name">
-              <TextField.Slot>
-                <PersonIcon height="16" width="16" />
-              </TextField.Slot>
-            </TextField.Root>
+            <div className="relative mt-2">
+              <PersonIcon className="absolute left-3 top-3 text-gray-400" />
+              <input
+                {...field}
+                placeholder="Ej: Juan Pérez"
+                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+              />
+            </div>
           )}
         />
-        {errors.name && <Text className="text-red-500">{errors.name.message}</Text>}
-
-        <label htmlFor="birthdate">Birthdate:</label>
-        <Controller
-          name="birthdate"
-          control={control}
-          rules={{
-            required: { value: true, message: "Este campo es requerido" },
-          }}
-          render={({ field }) => (
-            <TextField.Root {...field} placeholder="YYYY-MM-DD" name="birthdate">
-              <TextField.Slot>
-                <EnvelopeClosedIcon height="16" width="16" />
-              </TextField.Slot>
-            </TextField.Root>
-          )}
-        />
-        {errors.birthdate && (
-          <Text className="text-red-500">{errors.birthdate.message}</Text>
+        {errors.name && (
+          <Text className="text-sm text-red-400">{errors.name.message}</Text>
         )}
+      </div>
 
-        <Button type="submit" className="cursor-pointer">
-          Add user
-        </Button>
-      </Flex>
+     
+      <div>
+        <label htmlFor="email" className="text-sm font-semibold text-gray-300">
+          Correo electrónico
+        </label>
+        <Controller
+          name="email"
+          control={control}
+          rules={{ required: { value: true, message: "Campo requerido" } }}
+          render={({ field }) => (
+            <div className="relative mt-2">
+             
+              <input
+                {...field}
+                placeholder="ejemplo@email.com"
+                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+              />
+            </div>
+          )}
+        />
+        {errors.email && (
+          <Text className="text-sm text-red-400">{errors.email.message}</Text>
+        )}
+      </div>
+
+     
+      <div className="flex justify-center mt-6">
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+        >
+           {idURL?   "Actualizar": "Crear"}
+        </button>
+      </div>
     </form>
   );
 }
