@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import AddForm from "./AddForm";
+
 import Nodal from "./Nodal";
-import { useState } from "react";
+
 
 type Prop = {
   name: string;
@@ -18,11 +18,7 @@ type Prop = {
   w?: string;
   idUrl?:number
 };
-type UserType ={
-  name:string,
-  email:string,
-  id:number
-}
+
 
 
 
@@ -45,7 +41,7 @@ async function DeleteUser(id: number) {
 
 
 export default function Cards(props: Prop) {
-  const [userFom,setUserForm]=useState<UserType[]>([])
+ 
   
   const { name, img, email, id,idUrl } = props;
   const params = useParams();
@@ -87,7 +83,7 @@ export default function Cards(props: Prop) {
             {idURL?   <Nodal idUrl={idUrl}  /> :  <button
           
           onClick={() => DeleteUser(id!)}
-          className="px-3 py-1.5 bg-linear-to-r from-blue-500 to-indigo-600 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
+          className="px-3 py-1.5 bg-linear-to-r from-red-500 to-red-600 rounded-lg text-sm font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 cursor-pointer"
         >
           Eliminar
           

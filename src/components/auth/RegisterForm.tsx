@@ -117,7 +117,10 @@ export default function RegisterForm() {
             control={control}
             rules={{
               required: "Este campo es requerido",
-              minLength: { value: 6, message: "Debe tener al menos 6 caracteres" },
+              minLength: {
+                value: 6,
+                message: "Debe tener al menos 6 caracteres",
+              },
             }}
             render={({ field }) => (
               <input
@@ -132,9 +135,7 @@ export default function RegisterForm() {
           <LockClosedIcon className="absolute right-3 top-3.5 text-gray-400" />
         </div>
         {errors.password && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.password.message}
-          </p>
+          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
         )}
       </div>
 

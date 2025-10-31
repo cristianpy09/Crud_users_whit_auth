@@ -22,7 +22,7 @@ export default function Nodal({ idUrl }: Props) {
       <div className="flex justify-center">
         <button
           onClick={openModal}
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+          className="px-6 py-3 rounded-xl bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
         >
           {idUrl ? "Actualizar" : "Agregar Usuario"}
         </button>
@@ -33,7 +33,7 @@ export default function Nodal({ idUrl }: Props) {
         className="modal flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
       >
         <div className="modal-box bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl max-w-md w-full p-8 relative text-white animate-fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
             {idUrl ? "Actualizar Usuario" : "Crear Usuario Nuevo"}
           </h2>
 
