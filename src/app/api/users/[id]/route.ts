@@ -2,27 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-// 🧩 Definición de tipo para los usuarios
+// Definición de tipo para los usuarios
 interface User {
   id: number;
   name: string;
   email?: string;
 }
 
-// 🗂️ Ruta al archivo JSON
+// Ruta al archivo JSON
 const filePath = path.join(process.cwd(), "data", "users.json");
 
-// 📖 Leer el archivo JSON
+// Leer el archivo JSON
 function readData(): User[] {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-// ✍️ Escribir en el archivo JSON
+// Escribir en el archivo JSON
 function writeData(data: User[]) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-// 🔍 GET: Obtener un usuario por id
+//  GET: Obtener un usuario por id
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -43,7 +43,7 @@ export async function GET(
   return NextResponse.json(user);
 }
 
-// ✏️ PUT: Actualizar un usuario por id
+//  Actualizar un usuario por id
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -67,7 +67,7 @@ export async function PUT(
   return NextResponse.json(users[index]);
 }
 
-// 🗑️ DELETE: Eliminar un usuario por id
+//  Eliminar un usuario por id
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -88,6 +88,6 @@ export async function DELETE(
   writeData(filtered);
 
   return NextResponse.json({
-    message: `✅ Usuario con id ${id} eliminado correctamente`,
+    message: `Usuario con id ${id} eliminado correctamente`,
   });
 }

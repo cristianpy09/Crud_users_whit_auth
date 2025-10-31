@@ -1,9 +1,9 @@
 "use client";
 
 import { EnvelopeClosedIcon, PersonIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Text, TextField } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
-import React from "react";
+
 import { Controller, useForm } from "react-hook-form";
 
 type FormValues = {
@@ -14,11 +14,11 @@ type FormValues = {
 
 type AddFormProps = {
   close: () => void;
-  field?:InputEvent
+  field?: InputEvent;
 };
 
-async function Update(id:number, user:FormValues){
-  const res= await fetch(`http://localhost:3000/api/users/${id}`, {
+async function Update(id: number, user: FormValues) {
+  const res = await fetch(`http://localhost:3000/api/users/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -27,8 +27,7 @@ async function Update(id:number, user:FormValues){
       id: user.id,
     }),
   });
- }
-
+}
 
 async function Post(user: FormValues) {
   const res = await fetch("http://localhost:3000/api/users", {
@@ -45,7 +44,7 @@ async function Post(user: FormValues) {
   return await res.json();
 }
 
-export default function AddForm({ close }: AddFormProps ) {
+export default function AddForm({ close }: AddFormProps) {
   const {
     control,
     handleSubmit,
@@ -56,19 +55,23 @@ export default function AddForm({ close }: AddFormProps ) {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    await Post(data);
+    if (idURL) {
+      await Update(Number(idURL), data); 
+      alert("Usuario actualizado correctamente");
+    } else {
+      await Post(data);
+      alert("Usuario agregado correctamente");
+    }
     close();
     reset();
-    alert(" Usuario agregado correctamente");
     window.location.reload();
   });
 
   const params = useParams();
-    const idURL = params.id; 
+  const idURL = params.id;
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-     
       <div>
         <label htmlFor="name" className="text-sm font-semibold text-gray-300">
           Nombre completo
@@ -93,7 +96,6 @@ export default function AddForm({ close }: AddFormProps ) {
         )}
       </div>
 
-     
       <div>
         <label htmlFor="email" className="text-sm font-semibold text-gray-300">
           Correo electrónico
@@ -104,7 +106,7 @@ export default function AddForm({ close }: AddFormProps ) {
           rules={{ required: { value: true, message: "Campo requerido" } }}
           render={({ field }) => (
             <div className="relative mt-2">
-             
+              <EnvelopeClosedIcon className="absolute left-3 top-3 text-gray-400" />
               <input
                 {...field}
                 placeholder="ejemplo@email.com"
@@ -118,13 +120,12 @@ export default function AddForm({ close }: AddFormProps ) {
         )}
       </div>
 
-     
       <div className="flex justify-center mt-6">
         <button
           type="submit"
           className="w-full py-3 rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
         >
-           {idURL?   "Actualizar": "Crear"}
+          {idURL ? "Actualizar" : "Crear"}
         </button>
       </div>
     </form>

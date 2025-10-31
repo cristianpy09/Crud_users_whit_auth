@@ -16,6 +16,7 @@ type Prop = {
   status?: string;
   id?: number;
   w?: string;
+  idUrl?:number
 };
 type UserType ={
   name:string,
@@ -46,7 +47,7 @@ async function DeleteUser(id: number) {
 export default function Cards(props: Prop) {
   const [userFom,setUserForm]=useState<UserType[]>([])
   
-  const { name, img, email, id } = props;
+  const { name, img, email, id,idUrl } = props;
   const params = useParams();
   const idURL = params.id; 
   return (
@@ -83,7 +84,7 @@ export default function Cards(props: Prop) {
           >
             Ver detalles
             </Link>
-            {idURL?   <Nodal  /> :  <button
+            {idURL?   <Nodal idUrl={idUrl}  /> :  <button
           
           onClick={() => DeleteUser(id!)}
           className="px-3 py-1.5 bg-linear-to-r from-blue-500 to-indigo-600 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"

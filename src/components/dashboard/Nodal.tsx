@@ -1,13 +1,12 @@
-"use client";
-import { useParams } from "next/navigation";
+'use client';
+
 import AddForm from "./AddForm";
 
-export default async function Nodal() {
+type Props = {
+  idUrl?: string | number; // puede venir como string o número
+};
 
- 
-
- 
-
+export default function Nodal({ idUrl }: Props) {
   const openModal = () => {
     const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
     modal?.showModal();
@@ -17,35 +16,29 @@ export default async function Nodal() {
     const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
     modal?.close();
   };
-  const params = useParams();
-  const idURL = params.id; 
+
   return (
     <>
-      {/* Botón para abrir el modal */}
       <div className="flex justify-center">
         <button
           onClick={openModal}
-          className="px-6 py-3 rounded-xl bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
         >
-          {idURL?   "Actualizar": "Agregar Usuario"}
-           
+          {idUrl ? "Actualizar" : "Agregar Usuario"}
         </button>
       </div>
 
-      {/* Modal */}
       <dialog
         id="my_modal_1"
         className="modal flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
       >
         <div className="modal-box bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl max-w-md w-full p-8 relative text-white animate-fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-          {idURL?   "Actualizar Usuario": "Crear Usuario Nuevo"}
+          <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+            {idUrl ? "Actualizar Usuario" : "Crear Usuario Nuevo"}
           </h2>
 
-          {/* Formulario */}
           <AddForm close={closeModal} />
 
-          {/* Cerrar */}
           <div className="modal-action mt-8 flex justify-center">
             <form method="dialog">
               <button

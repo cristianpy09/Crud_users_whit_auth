@@ -1,3 +1,5 @@
+
+
 import fs from "fs";
 import path from "path";
 import Cards from "../../../components/dashboard/cards";
@@ -21,7 +23,9 @@ export default async function DetailPage({
 }: {
   params: { id: string };
 }) {
+  
   const { id } = await params;
+  const idURL = Number(id);
   const users = readData();
 
   // Buscar el usuario por ID
@@ -45,9 +49,9 @@ export default async function DetailPage({
       </h1>
 
       <div className="w-full max-w-md">
-        <Cards
+        <Cards idUrl ={idURL}
           name={user.name}
-          house={user.email}
+          email={user.email}
           id={user.id}
           w="w-full"
         />
