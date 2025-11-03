@@ -51,7 +51,7 @@ export default function Cards({ name, email, id, idUrl }: Prop) {
         ) : (
           <button
             onClick={() => DeleteUser(id!)}
-            className="px-3 py-1.5 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors"
+            className="px-3 py-1.5 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors cursor-pointer"
           >
             Eliminar
           </button>

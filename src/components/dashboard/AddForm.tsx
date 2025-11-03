@@ -129,7 +129,7 @@ export default function AddForm({ close }: AddFormProps) {
       <div className="flex justify-center mt-8">
         <button
           type="submit"
-          className="w-full py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm"
+          className="w-full py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm cursor-pointer"
         >
           {idURL ? "Actualizar" : "Crear"}
         </button>

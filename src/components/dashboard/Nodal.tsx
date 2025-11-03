@@ -23,7 +23,7 @@ export default function Nodal({ idUrl }: Props) {
       <div className="flex justify-center">
         <button
           onClick={openModal}
-          className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm"
+          className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm cursor-pointer"
         >
           {idUrl ? "Actualizar" : "Agregar Usuario"}
         </button>
@@ -47,7 +47,7 @@ export default function Nodal({ idUrl }: Props) {
             <form method="dialog">
               <button
                 onClick={closeModal}
-                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
+                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all cursor-pointer"
               >
                 Cerrar
               </button>

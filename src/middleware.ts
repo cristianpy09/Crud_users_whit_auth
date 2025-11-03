@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request:NextRequest) {
-  const user ="dad"
+  const user ="user"
 
   if(!user){
     return NextResponse.redirect(
