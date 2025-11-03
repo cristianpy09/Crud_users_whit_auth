@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import AddForm from "./AddForm";
 
 type Props = {
-  idUrl?: string | number; // puede venir como string o número
+  idUrl?: string | number;
 };
 
 export default function Nodal({ idUrl }: Props) {
@@ -19,30 +19,35 @@ export default function Nodal({ idUrl }: Props) {
 
   return (
     <>
+      {/* Botón para abrir modal */}
       <div className="flex justify-center">
         <button
           onClick={openModal}
-          className="px-6 py-3 rounded-xl bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+          className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm"
         >
           {idUrl ? "Actualizar" : "Agregar Usuario"}
         </button>
       </div>
 
+      {/* Modal */}
       <dialog
         id="my_modal_1"
-        className="modal flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+        className="modal flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm"
       >
-        <div className="modal-box bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl max-w-md w-full p-8 relative text-white animate-fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+        <div className="modal-box bg-white border border-gray-200 rounded-xl shadow-lg max-w-md w-full p-6 relative text-gray-800">
+          <h2 className="text-xl font-semibold mb-6 text-center text-gray-800">
             {idUrl ? "Actualizar Usuario" : "Crear Usuario Nuevo"}
           </h2>
 
+          {/* Formulario */}
           <AddForm close={closeModal} />
 
+          {/* Botón cerrar */}
           <div className="modal-action mt-8 flex justify-center">
             <form method="dialog">
               <button
-                className="px-5 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+                onClick={closeModal}
+                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
               >
                 Cerrar
               </button>

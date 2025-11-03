@@ -3,7 +3,6 @@
 import { EnvelopeClosedIcon, PersonIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
-
 import { Controller, useForm } from "react-hook-form";
 
 type FormValues = {
@@ -18,7 +17,7 @@ type AddFormProps = {
 };
 
 async function Update(id: number, user: FormValues) {
-  const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+  await fetch(`http://localhost:3000/api/users/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -54,9 +53,12 @@ export default function AddForm({ close }: AddFormProps) {
     defaultValues: { name: "", email: "" },
   });
 
+  const params = useParams();
+  const idURL = params.id;
+
   const onSubmit = handleSubmit(async (data) => {
     if (idURL) {
-      await Update(Number(idURL), data); 
+      await Update(Number(idURL), data);
       alert("Usuario actualizado correctamente");
     } else {
       await Post(data);
@@ -67,13 +69,13 @@ export default function AddForm({ close }: AddFormProps) {
     window.location.reload();
   });
 
-  const params = useParams();
-  const idURL = params.id;
-
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-6 bg-white border border-gray-200 rounded-xl p-6 shadow-md max-w-md w-full"
+    >
       <div>
-        <label htmlFor="name" className="text-sm font-semibold text-gray-300">
+        <label htmlFor="name" className="text-sm font-medium text-gray-700">
           Nombre completo
         </label>
         <Controller
@@ -86,18 +88,20 @@ export default function AddForm({ close }: AddFormProps) {
               <input
                 {...field}
                 placeholder="Ej: Juan Pérez"
-                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
               />
             </div>
           )}
         />
         {errors.name && (
-          <Text className="text-sm text-red-400">{errors.name.message}</Text>
+          <Text className="text-sm text-red-500 mt-1">
+            {errors.name.message}
+          </Text>
         )}
       </div>
 
       <div>
-        <label htmlFor="email" className="text-sm font-semibold text-gray-300">
+        <label htmlFor="email" className="text-sm font-medium text-gray-700">
           Correo electrónico
         </label>
         <Controller
@@ -110,20 +114,22 @@ export default function AddForm({ close }: AddFormProps) {
               <input
                 {...field}
                 placeholder="ejemplo@email.com"
-                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
               />
             </div>
           )}
         />
         {errors.email && (
-          <Text className="text-sm text-red-400">{errors.email.message}</Text>
+          <Text className="text-sm text-red-500 mt-1">
+            {errors.email.message}
+          </Text>
         )}
       </div>
 
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-8">
         <button
           type="submit"
-          className="w-full py-3 rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+          className="w-full py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-sm"
         >
           {idURL ? "Actualizar" : "Crear"}
         </button>
@@ -131,3 +137,7 @@ export default function AddForm({ close }: AddFormProps) {
     </form>
   );
 }
+
+
+
+

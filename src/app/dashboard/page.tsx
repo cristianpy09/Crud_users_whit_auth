@@ -1,5 +1,3 @@
-
-
 import Cards from "@/components/dashboard/cards";
 import Nodal from "@/components/dashboard/Nodal";
 
@@ -16,39 +14,33 @@ export default async function DashboardPage() {
   const data: User[] = await res.json();
 
   return (
-    <main className="min-h-screen w-full bg-linear-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col items-center p-10">
-      <header className="w-full max-w-6xl mb-10">
-        <h1 className="text-center text-5xl md:text-6xl font-extrabold bg-linear-to-r from-indigo-400 via-pink-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg">
-          Panel de Usuarios
-        </h1>
-        <p className="text-center text-gray-400 mt-3 text-lg">
+    <main className="min-h-screen w-full bg-gray-50 text-gray-800 flex flex-col items-center p-10">
+      <header className="w-full max-w-5xl mb-10 text-center">
+        <h1 className="text-4xl font-bold text-gray-800">Panel de Usuarios</h1>
+        <p className="text-gray-500 mt-2">
           Gestiona y visualiza todos los usuarios registrados.
         </p>
       </header>
 
-      <section className="w-full max-w-400   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <section className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.map((u: User) => (
           <div
             key={u.id}
-            className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]"
+            className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow duration-200"
           >
             <Cards name={u.name} email={u.email} id={u.id} />
-
-            <div className="absolute inset-0 rounded-2xl pointer-events-none bg-linear-to-br from-transparent via-transparent to-white/10"></div>
           </div>
         ))}
       </section>
 
-      <div className="mt-12">
+      <div className="mt-10">
         <Nodal />
       </div>
 
-      <footer className="mt-80 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Panel de Administración — Desarrollado con
-        ❤️ por{" Cristian Celis "}
-        <span className="text-pink-400 font-semibold">
-          Next.js + TailwindCSS
-        </span>
+      <footer className="mt-16 text-gray-400 text-sm text-center">
+        © {new Date().getFullYear()} Panel de Administración — Desarrollado por{" "}
+        <span className="font-semibold text-gray-700">Cristian Celis</span> con{" "}
+        <span className="text-gray-600 font-medium">Next.js + TailwindCSS</span>
       </footer>
     </main>
   );
