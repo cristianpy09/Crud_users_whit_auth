@@ -29,7 +29,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } =  params;
   const users = readData();
 
   // Convertimos ambos a string para asegurar coincidencia
@@ -50,8 +50,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } } 
 ) {
-  const { id } = await params;
-  const body = await request.json();
+  const { id } =  params;
+  const body =  request.json();
   const users = readData();
 
   const index = users.findIndex((u) => String(u.id) === String(id));
@@ -74,7 +74,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } =  params;
   const users = readData();
 
   const filtered = users.filter((u) => String(u.id) !== String(id));
