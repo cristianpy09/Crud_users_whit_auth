@@ -23,13 +23,11 @@ function writeData(data: User[]) {
 }
 
 
-type Params= {
-  id:string
-}
+
 //  GET: Obtener un usuario por id
 export async function GET(
   request: NextRequest,
-   params : Params
+  { params }: { params: { id: string } }
 ) {
   const { id } = await params;
   const users = readData();
@@ -50,7 +48,7 @@ export async function GET(
 //  Actualizar un usuario por id
 export async function PUT(
   request: NextRequest,
-  params : Params 
+  { params }: { params: { id: string } } 
 ) {
   const { id } = await params;
   const body = await request.json();
@@ -74,7 +72,7 @@ export async function PUT(
 //  Eliminar un usuario por id
 export async function DELETE(
   request: NextRequest,
-   params : Params
+  { params }: { params: { id: string } }
 ) {
   const { id } = await params;
   const users = readData();
