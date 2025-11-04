@@ -22,10 +22,14 @@ function writeData(data: User[]) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
+
+type Params= {
+  id:string
+}
 //  GET: Obtener un usuario por id
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+   params : Params
 ) {
   const { id } = await params;
   const users = readData();
@@ -46,7 +50,7 @@ export async function GET(
 //  Actualizar un usuario por id
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  params : Params 
 ) {
   const { id } = await params;
   const body = await request.json();
@@ -70,7 +74,7 @@ export async function PUT(
 //  Eliminar un usuario por id
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+   params : Params
 ) {
   const { id } = await params;
   const users = readData();
