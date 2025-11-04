@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
@@ -14,55 +12,37 @@ interface User {
 // Ruta al archivo JSON
 const filePath = path.join(process.cwd(), "data", "users.json");
 
-// Leer el archivo JSON
 function readData(): User[] {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-// Escribir en el archivo JSON
 function writeData(data: User[]) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-
-
-//  GET: Obtener un usuario por id
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } =  params;
+// ✅ FIX: usar "context" sin tipar explícitamente
+export async function GET(request: NextRequest, context: any) {
+  const { id } = context.params;
   const users = readData();
 
-  // Convertimos ambos a string para asegurar coincidencia
   const user = users.find((u) => String(u.id) === String(id));
 
   if (!user) {
-    return NextResponse.json(
-      { error: "Usuario no encontrado" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
   }
 
   return NextResponse.json(user);
 }
 
-//  Actualizar un usuario por id
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } } 
-) {
-  const { id } =  params;
-  const body =  request.json();
+export async function PUT(request: NextRequest, context: any) {
+  const { id } = context.params;
+  const body = await request.json();
   const users = readData();
 
   const index = users.findIndex((u) => String(u.id) === String(id));
 
   if (index === -1) {
-    return NextResponse.json(
-      { error: "Usuario no encontrado" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
   }
 
   users[index] = { ...users[index], ...body };
@@ -71,27 +51,17 @@ export async function PUT(
   return NextResponse.json(users[index]);
 }
 
-//  Eliminar un usuario por id
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } =  params;
+export async function DELETE(request: NextRequest, context: any) {
+  const { id } = context.params;
   const users = readData();
 
   const filtered = users.filter((u) => String(u.id) !== String(id));
 
-  // Si no se eliminó nada, el usuario no existía
   if (filtered.length === users.length) {
-    return NextResponse.json(
-      { error: "Usuario no encontrado" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
   }
 
   writeData(filtered);
 
-  return NextResponse.json({
-    message: `Usuario con id ${id} eliminado correctamente`,
-  });
+  return NextResponse.json({ message: `Usuario con id ${id} eliminado correctamente` });
 }
